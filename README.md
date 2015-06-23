@@ -14,9 +14,9 @@ does the job.
 
 ## Requirements
 
-Python 2.7+
-BeautifulSoup4
-User_agents
+* Python 2.7+
+* BeautifulSoup4
+* User_agents
 
 ## Installation
 
@@ -31,3 +31,5 @@ easy_install beautifulsoup4
 ```bash
 python uadown.py
 ```
+
+The final output files will be combined.json and useragents.sqlite.
