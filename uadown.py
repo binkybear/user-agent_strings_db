@@ -34,7 +34,7 @@ def sqlite_ua_createdb(sqlfile):
         # Add columns to the table from columns list
         for x in columns:
             c.execute("ALTER TABLE {tn} ADD COLUMN '{cn}'".format(tn=table_name, cn=x))
-        print("Created emtpy sqlite file", sqlfile, "with columns")
+        print("Created emtpy sqlite file %s with columns" % sqlfile)
 
         # Close database
         conn.close()
@@ -107,17 +107,17 @@ class UA(object):
 
 def web_soup(url, filename):
     try:
-        print("Connecting to ", url)
+        print("[+] Connecting to %s" % url)
         content = urllib2.urlopen(url).read()
 
-        print("Creating file ", filename)
+        print("[+] Creating file %s" % filename)
         f = open(filename, 'w')
 
         soup = BeautifulSoup(content)
 
         li = soup.find_all("li")
 
-        print("Scraping data from ", url)
+        print("[+] Scraping data from %s" % url)
         for urlstring in li:
             uagent = urlstring.get_text()
             uagent = re.sub(r'^"|"$', '', uagent) # Remove double quotes
@@ -136,7 +136,7 @@ def web_soup(url, filename):
 def checkMD5(url, max_file_size=100*1024*1024):
     # MD5 remote check from: https://gist.github.com/brianewing/994303
     try:
-        print "Checking to see if you have the latest xml file"
+        print("[+] Checking to see if you have the latest xml file")
         remote = urllib2.urlopen(url)
         hash = hashlib.md5()
 
@@ -167,7 +167,7 @@ def downloadUAXML(url):
         f = open(file_name, 'wb')
         meta = u.info()
         file_size = int(meta.getheaders("Content-Length")[0])
-        print("Downloading: %s Bytes: %s") % (file_name, file_size)
+        print("[+] Downloading: %s Bytes: %s") % (file_name, file_size)
 
         file_size_dl = 0
         block_sz = 8192
@@ -199,7 +199,7 @@ def techpatterns(url, techpatternsxml, techpatternsjson):
     tree = ET.ElementTree(file=techpatternsxml)
     root = tree.getroot() # Define root as the "root" of the xml tree
 
-    print("Parsing latest techpatterns xml file")
+    print("[+] Parsing latest techpatterns xml file")
     # Search the XML file for useragent strings then pass as object > create json
     for browsertype in root.findall('folder'):
         for type in browsertype.findall('folder'):
@@ -227,13 +227,13 @@ def check_latest_uaxml(url, techpatternsxml):
 
         # Check remote uaxml md5
         remotemd5 = checkMD5(url)
-        print('Local MD5: ', localmd5, '|', 'Remote MD5:', remotemd5) # Debugging
+        print('[+] Local MD5: %s\n[+]Remote MD5: %s' % (localmd5, remotemd5)) # Debugging
 
         # Compare
         if localmd5 == remotemd5:
-            print('You have the latest useragent xml file')
+            print('[+] You have the latest useragent xml file')
     else:
-        print('Missing useragentswitcher.xml.')
+        print('[-] Missing useragentswitcher.xml')
         downloadUAXML(url)
 
 def dedupe_json(techpatterns_json, useragentstring_com):
