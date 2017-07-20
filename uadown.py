@@ -227,7 +227,7 @@ def check_latest_uaxml(url, techpatternsxml):
 
         # Check remote uaxml md5
         remotemd5 = checkMD5(url)
-        print('[+] Local MD5: %s\n[+]Remote MD5: %s' % (localmd5, remotemd5)) # Debugging
+        print('[+] Local MD5:  %s\n[+] Remote MD5: %s' % (localmd5, remotemd5)) # Debugging
 
         # Compare
         if localmd5 == remotemd5:
@@ -258,7 +258,7 @@ if __name__ == '__main__':
     techpatternsjson = 'techpatterns.json'
 
     # Useragentstring.com scrape
-    useragentstring_url = "http://www.useragentstring.com/pages/All/"
+    useragentstring_url = "http://www.useragentstring.com/pages/useragentstring.php?name=All"
     useragentstring_com_json = "useragentstring_com.json"
 
     # Check if we have a DB file, if not create one
